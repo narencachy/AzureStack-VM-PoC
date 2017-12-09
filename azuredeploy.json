@@ -50,6 +50,7 @@
         },
         "adminPassword": {
             "type": "securestring"
+	    "defaultValue": "demo@pass123",
         },
         "addressPrefix": {
             "type": "string",
@@ -82,9 +83,6 @@
             "metadata": {
                 "name": "Dynamic"
             }
-        },
-        "publicDnsName": {
-            "type": "string"
         },
         "autoShutdownStatus": {
             "type": "string",
@@ -127,7 +125,7 @@
         "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetID'), '/subnets/', parameters('subnetName'))]",
         "scriptFileName": "post-config.ps1",
-        "scriptPath": "https://raw.githubusercontent.com/yagmurs/AzureStack-VM-PoC/development/scripts/",
+        "scriptPath": "https://raw.githubusercontent.com/opsgility/AzureStack-VM-PoC/development/scripts/",
         "fileUri": "[concat(variables('scriptPath'), variables('scriptFileName'))]",
         "adminUsername": "__administrator",
         "osDiskSizeinGB": 256,
@@ -300,11 +298,7 @@
             "location": "[variables('location')]",
             "properties": {
                 "publicIPAllocationMethod": "[parameters('publicIpAddressType')]",
-                "publicIPAddressVersion": "IPv4",
-                "dnsSettings":{
-                    "domainNameLabel": "[parameters('publicDnsName')]",
-                    "fqdn": "[concat(parameters('publicDnsName'), '.',variables('location'), '.cloudapp.azure.com')]"
-                }
+                "publicIPAddressVersion": "IPv4"
             }
         },
         {
@@ -335,10 +329,6 @@
         "adminUsername": {
             "type": "string",
             "value": "[concat(parameters('virtualMachineName'),'\\','Administrator')]"
-        },
-        "IPAddress": {
-            "type": "string",
-            "value": "[reference(variables('publicIpAddressName')).dnssettings.fqdn]"
         }
     }
 }
